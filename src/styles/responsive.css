@@ -1,0 +1,364 @@
+@media screen and (max-width: 599px) {
+  nav {
+    z-index: 10;
+    background-color: #ffffff;
+    width: 100%;
+    position: absolute;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-1000px, 0);
+    transform: translate(-1000px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0.5s ease;
+  }
+
+  .open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+
+  .nav__item {
+    display: list-item;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .list-item__description {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .topnav a:not(:first-child) {
+    display: none;
+  }
+
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+
+  .topnav.responsive {
+    position: relative;
+  }
+
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .grid-container {
+    grid-template-columns: 2fr 2fr;
+  }
+}
+
+@media (max-width: 320px) {
+  .con {
+    width: auto;
+  }
+}
+
+@media (max-width: 515px) {
+
+  /* Ubah ukuran padding saat lebar layar maksimum 480px */
+  .grid-container {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  .grid-container div {
+    padding: 25px;
+  }
+
+  .container-riwayat-agenda,
+  .container {
+    padding: 30px;
+  }
+
+  .search-input {
+    font-size: 0.8rem;
+    width: 150px;
+    height: 44px;
+    padding: 10px;
+  }
+
+  .btn-search {
+    right: 4.5px;
+    height: 44px;
+    width: 70px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .sub_layanan {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 25px;
+  }
+
+  .deskripsi_paragraf {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+
+  .image_hero,
+  .img-riwayat-kegiatan {
+    display: none;
+  }
+
+  .container,
+  .container-riwayat-agenda {
+    grid-template-columns: auto;
+  }
+
+  .main-content-container {
+    padding: 40px;
+  }
+
+  footer {
+    margin: 0;
+  }
+
+  .footer-container {
+    grid-template-columns: 2fr 0.8fr 1fr;
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .tukar_container {
+    height: 300px;
+    padding: 20px;
+  }
+
+  .desc_hero {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 855px) {
+  footer {
+    padding: 70px;
+    height: 400px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1.5fr 0.8fr 1fr;
+    height: 250px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .tukar_container {
+    height: 400px;
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 799px) {
+
+  .hero_title,
+  .hero_subtitle,
+  .exchange_button {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+  }
+
+  .exchange_button {
+    margin-top: 20px;
+  }
+
+  .desc_hero {
+    margin-top: 50px;
+  }
+
+  .deskripsi_footer {
+    text-align: center;
+  }
+
+  .hero_title {
+    font-size: 15px;
+    line-height: 30px;
+  }
+
+  .con {
+    width: auto;
+  }
+
+  .layanan {
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .maincontent {
+    max-width: 1200px;
+    margin: auto;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .footer-content,
+  .social-media,
+  .footer-links,
+  .social-icon {
+    flex-basis: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .header {
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .header li a {
+    margin-left: 0;
+  }
+
+  .tentangkami h2 {
+    font-size: 22px;
+  }
+
+  .deskripsi_container {
+    padding: 50px;
+  }
+
+  .deskripsi_footer,
+  .copyright {
+    width: 100%;
+  }
+
+  .deskripsi_container {
+    padding: 20px;
+  }
+
+  footer {
+    height: 100%;
+    padding: 40px;
+  }
+
+  .identitas_footer {
+    text-align: center;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 20px 0;
+    padding: 5px;
+    min-height: 550px;
+  }
+
+  .social-media {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 975px) {
+  .header li {
+    float: left;
+  }
+
+  .header li a {
+    padding: 20px 30px;
+  }
+
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+
+  .header .menu-icon {
+    display: none;
+  }
+
+  .header {
+    width: 100%;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-left: 50px;
+    padding-right: 50px;
+    position: sticky;
+    background-color: white;
+    top: 0;
+    overflow: hidden;
+    box-shadow: 2px 1px 15px 0px rgba(0, 0, 0, 0.57);
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  /* Riwayat Agenda */
+
+  .list-riwayat-kegiatan {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 25px;
+  }
+
+  .item-riwayat-kegiatan {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 1fr;
+    gap: 0;
+  }
+
+  .list-img-riwayat-kegiatan {
+    height: 250px;
+    width: 100%;
+  }
+
+  .item-riwayat-article {
+    justify-content: start;
+  }
+
+  .waktu-kegiatan {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Agenda */
+
+  .list-agenda-kegiatan {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .list-riwayat-kegiatan {
+    grid-template-columns: 1fr;
+  }
+
+  .list-agenda-kegiatan {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (min-width: 2100px) {
+  .list-img-riwayat-kegiatan {
+    height: 200px;
+    width: 100%;
+  }
+
+  .list-agenda-kegiatan {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
