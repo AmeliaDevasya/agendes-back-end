@@ -154,7 +154,7 @@ exports.updateAgendaById = function (req, res) {
         return res.status(400).json(failResponse);
     }
 
-    var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
+    // var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
 
     // Menghapus foto lama jika ada
     connection.query('SELECT foto_kegiatan FROM kegiatan_desa WHERE id_kegiatan = ?', [id], function (error, rows, fields) {
