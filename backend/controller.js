@@ -3,6 +3,7 @@
 var response = require('./respon');
 var connection = require('./koneksi');
 const fs = require('fs');
+const cloudinary = require('./config/cloudinary');
 
 exports.index = function (req, res) {
     response.ok("Aplikasi REST API berjalan!", res);
@@ -45,7 +46,7 @@ exports.addNewAgenda = function (req, res) {
     var jenis_kegiatan = req.body.jenis_kegiatan;
     var waktu = req.body.waktu;
     var tambahan = req.body.tambahan;
-    
+
     // Validasi apakah properti 'nama_kegiatan' , 'tempat_kegiatan' dan 'waktu' ada pada request body
     if (!nama_kegiatan || !tempat_kegiatan || !waktu) {
         const response = {
@@ -56,20 +57,82 @@ exports.addNewAgenda = function (req, res) {
         return;
     }
 
-    var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
-    
-    connection.query('INSERT INTO kegiatan_desa (nama_kegiatan,deskripsi_kegiatan,tempat_kegiatan,jenis_kegiatan,waktu,tambahan,foto_kegiatan) VALUES(?,?,?,?,?,?,?)',
-        [nama_kegiatan, deskripsi_kegiatan, tempat_kegiatan, jenis_kegiatan, waktu, tambahan, foto_kegiatan], function (error, rows, fields) {
-            if (error) {
-                console.log(error);
-            } else {
-                const successResponse = {
-                    status: 'success',
-                    message: 'Agenda berhasil ditambahkan',
-                };
-                res.status(201).json(successResponse);
-            }
-        });
+    // var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
+
+    cloudinary.uploader.upload(req.file.path, async function (err, result) {
+        if (err) {
+            console.log("Error Bang : ", err);
+            return res.status(500).json({
+                success: false,
+                message: "Gagal upload!",
+            });
+        }
+        
+        try {
+            
+            connection.query('INSERT INTO kegiatan_desa (nama_kegiatan,deskripsi_kegiatan,tempat_kegiatan,jenis_kegiatan,waktu,tambahan,foto_kegiatan) VALUES(?,?,?,?,?,?,?)',
+                [nama_kegiatan, deskripsi_kegiatan, tempat_kegiatan, jenis_kegiatan, waktu, tambahan, result.secure_url], function (error, rows, fields) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        const successResponse = {
+                            status: 'success',
+                            message: 'Agenda berhasil ditambahkan',
+                        };
+                        res.status(201).json(successResponse);
+                    }
+                });
+
+            res.status(200).json({
+                success: true,
+                message: "Berhasil upload!",
+                data: result,
+            });
+        } catch (dbError) {
+            console.error("Error Database: ", dbError);
+            res.status(500).json({
+                success: false,
+                message: "Error saat menyimpan ke database",
+            });
+        }
+
+        // Simpan tautan gambar ke dalam database
+        // const productData = {
+        //   nama_product: req.body.nama_product,
+        //   foto_product: result.secure_url,
+        //   id_foto_product: result.public_id,
+        // };
+
+        // Panggil fungsi dari model untuk menyimpan ke database
+        //         try {
+        //         //   await PorductModel.createNewProduct(productData);
+
+        //           res.status(200).json({
+        //             success: true,
+        //             message: "Berhasil upload!",
+        //             data: result,
+        //           });
+        //         } catch (dbError) {
+        //           console.error("Error Database: ", dbError);
+        //           res.status(500).json({
+        //             success: false,
+        //             message: "Error saat menyimpan ke database",
+        //           });
+        //         }
+    });
+
+    // connection.query('INSERT INTO kegiatan_desa (nama_kegiatan,deskripsi_kegiatan,tempat_kegiatan,jenis_kegiatan,waktu,tambahan,foto_kegiatan) VALUES(?,?,?,?,?,?,?)',
+    //     [nama_kegiatan, deskripsi_kegiatan, tempat_kegiatan, jenis_kegiatan, waktu, tambahan, foto_kegiatan], function (error, rows, fields) {
+    //         if (error) {
+    //             console.log(error);
+    //         } else {
+    //             const successResponse = {
+    //                 status: 'success',
+    //                 message: 'Agenda berhasil ditambahkan',
+    //             };
+    //             res.status(201).json(successResponse);
+    //         }
+    //     });
 };
 
 //mengubah data agenda berdasarkan id
@@ -81,7 +144,7 @@ exports.updateAgendaById = function (req, res) {
     var jenis_kegiatan = req.body.jenis_kegiatan;
     var waktu = req.body.waktu;
     var tambahan = req.body.tambahan;
-    
+
     //Validasi apakah properti 'nama_kegiatan' , 'tempat_kegiatan' dan 'waktu' ada pada request body 
     if (!nama_kegiatan || !tempat_kegiatan || !waktu) {
         const failResponse = {
@@ -90,9 +153,9 @@ exports.updateAgendaById = function (req, res) {
         };
         return res.status(400).json(failResponse);
     }
-    
+
     var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
-    
+
     // Menghapus foto lama jika ada
     connection.query('SELECT foto_kegiatan FROM kegiatan_desa WHERE id_kegiatan = ?', [id], function (error, rows, fields) {
         if (error) {
