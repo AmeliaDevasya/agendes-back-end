@@ -157,37 +157,64 @@ exports.updateAgendaById = function (req, res) {
     // var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
 
     // Menghapus foto lama jika ada
-    connection.query('SELECT foto_kegiatan FROM kegiatan_desa WHERE id_kegiatan = ?', [id], function (error, rows, fields) {
-        if (error) {
-            console.log(error);
-        } else {
-            const oldFotoPath = rows[0] ? rows[0].foto_kegiatan : null;
-            if (oldFotoPath) {
-                fs.unlinkSync('.' + oldFotoPath);
-            }
+    
 
-            connection.query(
-                'UPDATE kegiatan_desa SET nama_kegiatan=?, deskripsi_kegiatan=?, tempat_kegiatan=?, jenis_kegiatan=?, waktu=?, tambahan=?, foto_kegiatan=? WHERE id_kegiatan=?',
-                [nama_kegiatan, deskripsi_kegiatan, tempat_kegiatan, jenis_kegiatan, waktu, tambahan, foto_kegiatan, id],
-                function (error, rows, fields) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        if (rows.affectedRows === 0) {
-                            const notFoundResponse = {
-                                status: 'fail',
-                                message: 'Gagal memperbarui agenda. Id tidak ditemukan',
-                            };
-                            return res.status(404).json(notFoundResponse);
+    cloudinary.uploader.upload(req.file.path, async function (err, result) {
+        if (err) {
+            console.log("Error Bang : ", err);
+            return res.status(500).json({
+                success: false,
+                message: "Gagal upload!",
+            });
+        }
+        
+        try {
+            
+            connection.query('SELECT foto_kegiatan FROM kegiatan_desa WHERE id_kegiatan = ?', [id], function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    // const oldFotoPath = rows[0] ? rows[0].foto_kegiatan : null;
+                    // if (oldFotoPath) {
+                    //     fs.unlinkSync('.' + oldFotoPath);
+                    // }
+        
+                    connection.query(
+                        'UPDATE kegiatan_desa SET nama_kegiatan=?, deskripsi_kegiatan=?, tempat_kegiatan=?, jenis_kegiatan=?, waktu=?, tambahan=?, foto_kegiatan=? WHERE id_kegiatan=?',
+                        [nama_kegiatan, deskripsi_kegiatan, tempat_kegiatan, jenis_kegiatan, waktu, tambahan, result.secure_url, id],
+                        function (error, rows, fields) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                if (rows.affectedRows === 0) {
+                                    const notFoundResponse = {
+                                        status: 'fail',
+                                        message: 'Gagal memperbarui agenda. Id tidak ditemukan',
+                                    };
+                                    return res.status(404).json(notFoundResponse);
+                                }
+                                const successResponse = {
+                                    status: 'success',
+                                    message: 'Agenda berhasil diubah',
+                                };
+                                return res.status(200).json(successResponse);
+                            }
                         }
-                        const successResponse = {
-                            status: 'success',
-                            message: 'Agenda berhasil diubah',
-                        };
-                        return res.status(200).json(successResponse);
-                    }
+                    );
                 }
-            );
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Berhasil upload!",
+                data: result,
+            });
+        } catch (dbError) {
+            console.error("Error Database: ", dbError);
+            res.status(500).json({
+                success: false,
+                message: "Error saat menyimpan ke database",
+            });
         }
     });
 };
