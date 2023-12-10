@@ -77,7 +77,7 @@ exports.addNewAgenda = function (req, res) {
                     } else {
                         const successResponse = {
                             status: 'success',
-                            message: 'Agenda berhasil ditambahkan',
+                            message: 'Agenda berhasil disimpan',
                         };
                         res.status(201).json(successResponse);
                     }
@@ -85,7 +85,7 @@ exports.addNewAgenda = function (req, res) {
 
             res.status(200).json({
                 success: true,
-                message: "Berhasil upload!",
+                message: "Berhasil menambahkan Agenda baru!",
                 data: result,
             });
         } catch (dbError) {
