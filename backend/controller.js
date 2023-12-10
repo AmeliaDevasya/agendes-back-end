@@ -61,7 +61,7 @@ exports.addNewAgenda = function (req, res) {
 
     cloudinary.uploader.upload(req.file.path, async function (err, result) {
         if (err) {
-            console.log("Error Bang : ", err);
+            console.log(err);
             return res.status(500).json({
                 success: false,
                 message: "Gagal upload!",
@@ -95,44 +95,7 @@ exports.addNewAgenda = function (req, res) {
                 message: "Error saat menyimpan ke database",
             });
         }
-
-        // Simpan tautan gambar ke dalam database
-        // const productData = {
-        //   nama_product: req.body.nama_product,
-        //   foto_product: result.secure_url,
-        //   id_foto_product: result.public_id,
-        // };
-
-        // Panggil fungsi dari model untuk menyimpan ke database
-        //         try {
-        //         //   await PorductModel.createNewProduct(productData);
-
-        //           res.status(200).json({
-        //             success: true,
-        //             message: "Berhasil upload!",
-        //             data: result,
-        //           });
-        //         } catch (dbError) {
-        //           console.error("Error Database: ", dbError);
-        //           res.status(500).json({
-        //             success: false,
-        //             message: "Error saat menyimpan ke database",
-        //           });
-        //         }
     });
-
-    // connection.query('INSERT INTO kegiatan_desa (nama_kegiatan,deskripsi_kegiatan,tempat_kegiatan,jenis_kegiatan,waktu,tambahan,foto_kegiatan) VALUES(?,?,?,?,?,?,?)',
-    //     [nama_kegiatan, deskripsi_kegiatan, tempat_kegiatan, jenis_kegiatan, waktu, tambahan, foto_kegiatan], function (error, rows, fields) {
-    //         if (error) {
-    //             console.log(error);
-    //         } else {
-    //             const successResponse = {
-    //                 status: 'success',
-    //                 message: 'Agenda berhasil ditambahkan',
-    //             };
-    //             res.status(201).json(successResponse);
-    //         }
-    //     });
 };
 
 //mengubah data agenda berdasarkan id
@@ -156,18 +119,14 @@ exports.updateAgendaById = function (req, res) {
 
     // var foto_kegiatan = req.file ? '/uploads/' + req.file.filename : null;
 
-    // Menghapus foto lama jika ada
-    
-
     cloudinary.uploader.upload(req.file.path, async function (err, result) {
         if (err) {
-            console.log("Error Bang : ", err);
+            console.log(err);
             return res.status(500).json({
                 success: false,
-                message: "Gagal upload!",
+                message: "Gagal update!",
             });
-        }
-        
+        }        
         try {
             
             connection.query('SELECT foto_kegiatan FROM kegiatan_desa WHERE id_kegiatan = ?', [id], function (error, rows, fields) {
@@ -206,7 +165,7 @@ exports.updateAgendaById = function (req, res) {
 
             res.status(200).json({
                 success: true,
-                message: "Berhasil upload!",
+                message: "Berhasil memperbarui agenda!",
                 data: result,
             });
         } catch (dbError) {
