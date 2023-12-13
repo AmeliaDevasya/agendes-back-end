@@ -5,6 +5,8 @@ var morgan = require('morgan');
 const app = express();
 const multer = require('multer');
 
+app.use(cors());
+
 //parse application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
