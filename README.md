@@ -1,6 +1,7 @@
-# AGENDES API
+# AGENDES API DOCUMENTATION
 
 This document provides information on how to use the Agendes API for managing agendas, reminders, and user authentication.
+
 
 ## ROUTING AGENDA
 
@@ -29,6 +30,7 @@ This document provides information on how to use the Agendes API for managing ag
 - Method: `DELETE`
 - Description: Deletes an agenda based on its ID.
 
+
 ## ROUTING REMINDER
 
 ### Get All Reminders
@@ -46,6 +48,11 @@ This document provides information on how to use the Agendes API for managing ag
 - Method: `GET`
 - Description: Retrieves a reminder based on its ID.
 
+### Get Reminder by Email
+- Endpoint: `https://agendes-back-end.vercel.app/reminder-byemail/{email}`
+- Method: `GET`
+- Description: Retrieves a reminder based on email user.
+
 ### Update Reminder by ID
 - Endpoint: `https://agendes-back-end.vercel.app/reminder/{id}`
 - Method: `PUT`
@@ -56,6 +63,7 @@ This document provides information on how to use the Agendes API for managing ag
 - Method: `DELETE`
 - Description: Deletes a reminder based on its ID.
 
+
 ## ROUTING RELATIONSHIP BETWEEN REMINDER AND AGENDA DESA
 
 ### Get Reminder-User Relationship
@@ -63,7 +71,13 @@ This document provides information on how to use the Agendes API for managing ag
 - Method: `GET`
 - Description: Retrieves the relationship between reminders and agenda desa.
 
-## ROUTING REGISTER
+### Post Reminder-User Relationship
+- Endpoint: `https://agendes-back-end.vercel.app/reminder-user`
+- Method: `POST`
+- Description: Add a relationship between reminders and agenda desa.
+
+
+## ROUTING LOGIN AND REGISTER
 
 ### Register Admin
 - Endpoint: `https://agendes-back-end.vercel.app/auth/agendes/admin/register`
