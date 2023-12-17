@@ -259,6 +259,24 @@ exports.getReminderById = function (req, res) {
     });
 };
 
+//mencari reminder berdasarkan email
+exports.getReminderByEmail = function (req, res) {
+    let email = req.params.email;
+    connection.query('SELECT * FROM reminder_warga_desa WHERE email_user = ?', [email], function (error, rows, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            if (rows.length === 0) {
+                return res.status(404).json({
+                    status: 'fail',
+                    message: 'Email Reminder tidak ditemukan',
+                });
+            }
+            response.ok(rows, res);
+        }
+    });
+};
+
 //mengubah data reminder berdasarkan id
 exports.updateReminderById = function (req, res) {
     var id = req.params.id;
@@ -327,4 +345,33 @@ exports.showAllRelation = function (req, res) {
             response.ok(rows, res);
         }
     });
+};
+
+//menambahkan relasi kegiatan dan warga yang mengikuti 
+exports.addNewRelation = function (req, res) {
+    var id_kegiatan = req.body.id_kegiatan;
+    var id_reminder = req.body.id_reminder;
+
+    //Validasi apakah properti 'id_kegiatan' dan 'id_reminder' ada pada request body
+    if (!id_kegiatan || !id_reminder) {
+        const response = {
+            status: 'fail',
+            message: 'Gagal menambahkan relasi kegiatan dan warga yang mengikuti',
+        };
+        res.status(400).json(response);
+        return;
+    }
+
+    connection.query('INSERT INTO transaksi_kegiatan (id_kegiatan,id_reminder) VALUES(?,?)',
+        [id_kegiatan, id_reminder], function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                const successResponse = {
+                    status: 'success',
+                    message: 'Berhasil menambahkan relasi kegiatan dan warga yang mengikuti!',
+                };
+                res.status(201).json(successResponse);
+            }
+        });
 };

@@ -30,6 +30,9 @@ module.exports = function(app){
     app.route('/reminder/:id')
         .get(myjson.getReminderById);
 
+    app.route('/reminder-byemail/:email')
+        .get(myjson.getReminderByEmail);
+
     app.route('/reminder/:id')
         .put(myjson.updateReminderById);     
 
@@ -38,4 +41,7 @@ module.exports = function(app){
     
     app.route('/reminder-user')
         .get(myjson.showAllRelation);
+
+    app.route('/reminder-user')
+        .post(myjson.addNewRelation);
 }
